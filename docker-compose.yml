@@ -1,0 +1,38 @@
+#version: '3.1'
+#services:
+#  app:
+#    container_name: springboot-postgresql
+#    image: idealsuraj/springbootpostgresql:0.0.1
+#    build: ./
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgresqldb
+#  postgresqldb:
+#    image: postgres
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_DB=employeedb
+
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/employeedb
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - db
+
+  db:
+    build: ./mysql
+    ports:
+      - '3306:3306'
